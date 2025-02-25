@@ -8,7 +8,8 @@
                         <h6 class="p my-0 text-secondary">Welcome to</h6>
                         <h3 class="h3 mb-1 text-body">Ogroz Accounting Software</h3>
                         <h6 class="text-secondary p">Developed & Maintained By
-                            <a class="fst-italic" target="_blank" href="https://github.com/efthakhar">Efthakhar Bin Alam Dihab</a>
+                            <a class="fst-italic" target="_blank" href="https://github.com/efthakhar">Efthakhar Bin Alam
+                                Dihab</a>
                         </h6>
                     </div>
                 </div>
@@ -16,21 +17,21 @@
         </div>
         <div class="row flex-wrap">
             <div class="col-md-4 my-2">
-                <div class="card border-0 p-2 bg-body text-left h-100">
+                <div class="card border-0 p-2 bg-body text-left">
                     <div class="card-body">
                         <p class="h6 text-body">
-                            Setting
+                            Accounting
                         </p>
                         <a href="#" class="link-secondary d-block mb-1">
-                            <span>Profile</span>
+                            <span> Account Groups</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                         <a href="#" class="link-secondary d-block mb-1">
-                            <span>Roles</span>
+                            <span>Accounts</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                         <a href="#" class="link-secondary d-block mb-1">
-                            <span>Logout</span>
+                            <span>Journal Entries</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                     </div>
@@ -40,70 +41,26 @@
                 <div class="card border-0 p-2 bg-body text-left">
                     <div class="card-body">
                         <p class="h6 text-body">
-                            Accounting
+                            Reports
                         </p>
                         <a href="#" class="link-secondary d-block mb-1">
-                            <span> Journal Entries</span>
+                            <span>Ledger Report</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                         <a href="#" class="link-secondary d-block mb-1">
-                            <span>Chart of Accounts</span>
+                            <span> Trial Balance</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+
+                        <a href="#" class="link-secondary d-block mb-1">
+                            <span>Income Statement</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                         <a href="#" class="link-secondary d-block mb-1">
                             <span>Balance Sheet</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Trial Balance</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card border-0 p-2 bg-body text-left h-100">
-                    <div class="card-body">
-                        <p class="h6 text-body">
-                            Setting
-                        </p>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Profile</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Roles</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Logout</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card border-0 p-2 bg-body text-left">
-                    <div class="card-body">
-                        <p class="h6 text-body">
-                            Accounting
-                        </p>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span> Journal Entries</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Chart of Accounts</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Balance Sheet</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Trial Balance</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
+
                     </div>
                 </div>
             </div>
@@ -118,36 +75,19 @@
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                         <a href="#" class="link-secondary d-block mb-1">
+                            <span>Users</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                        <a href="#" class="link-secondary d-block mb-1">
+                            <span>System</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                        <a href="#" class="link-secondary d-block mb-1">
                             <span>Roles</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                         <a href="#" class="link-secondary d-block mb-1">
                             <span>Logout</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card border-0 p-2 bg-body text-left">
-                    <div class="card-body">
-                        <p class="h6 text-body">
-                            Accounting
-                        </p>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span> Journal Entries</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Chart of Accounts</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Balance Sheet</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Trial Balance</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                     </div>

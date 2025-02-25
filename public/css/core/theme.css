@@ -1,0 +1,293 @@
+:root {
+    --topbar-height: 50px;
+    --sidebar-width: 252px;
+    --sidebar-collapsed-width: 60px;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+input[type='checkbox'], .cursor-pointer {
+    cursor: pointer;
+}
+
+.user-select-none-full-area > * {
+    user-select: none;
+}
+.user-select-none {
+    user-select: none;
+}
+
+/*-----------------------------
+ ** Thin Scrollbar 
+ /* For WebKit browsers (Chrome, Safari, newer versions of Edge) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f0f0f0;
+}
+
+/* Optional: styling scrollbars in Internet Explorer */
+.scrollable-content {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/** Full Page Loader */
+.full-page-loader{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bs-light-bg-subtle);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150 !important;
+}
+
+/*================
+* Admin Page Css
+*=================/
+
+*/
+.ease-admin-page {
+    width: 100vw;
+}
+
+.topbar {
+    height: var(--topbar-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 100;
+}
+
+.sidebar-and-content {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    flex: 0 0 var(--sidebar-width);
+    height: calc(100vh - var(--topbar-height));
+    position: fixed;
+    top: var(--topbar-height);
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.4s, height 0.4s, left 0.4s, top 0.4s, background-color 0s ; 
+    z-index: 99;
+}
+
+.sidebar-nav-item {
+    margin-top: 8px;
+}
+
+
+.sidebar-nav-item.active .sidebar-nav-link {
+    color: var(--bs-primary) !important;
+}
+
+.sidebar-nav-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-weight: normal;
+}
+
+.sidebar-nav-link-icon {
+    padding: 1px;
+    margin-right: 10px;
+}
+
+.sidebar-nav-link-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.sidebar-nav-item-subitems .sidebar-nav-item {
+    margin-left: 28px;
+}
+
+.sidebar-nav-item-subitems {
+    height: 0;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform 0.3s ease, background-color 0s;
+}
+
+.sidebar-nav-link-toggle-icon {
+    display: block;
+}
+
+.sidebar-nav-item-subitems.collapsed {
+    height: auto;
+    transform: scale(1);
+    transition: transform 0.3s ease, background-color 0s;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-item {
+    justify-content: start;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-link {
+    justify-content: center;
+}
+
+.sidebar-nav-link.active {
+    color: var(--bs-primary) !important;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-link-icon {
+    /* padding: 1px; */
+    /* margin-right: 0px;
+    margin-bottom: 5px;
+    border-radius: 3px; */
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-link-icon svg {
+    /* width: 23px;
+    height: 23px;
+    fill: currentColor; */
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-link-text {
+    display: none;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-item-subitems .sidebar-nav-item {
+    margin-left: 0px;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar-nav-link-toggle-icon {
+    display: none;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover {
+    width: var(--sidebar-width);
+    left: 0%;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover .sidebar-nav-link {
+    justify-content: start;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover .sidebar-nav-link-icon {
+    margin-right: 10px;
+    border: none;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover .sidebar-nav-link-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover .sidebar-nav-link-text {
+    display: block;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover .sidebar-nav-item-subitems .sidebar-nav-item {
+    margin-left: 28px;
+}
+
+.sidebar-and-content.sidebar-collapsed .sidebar:hover .sidebar-nav-link-toggle-icon {
+    display: block;
+}
+
+.main-content {
+    width: calc(100vw - var(--sidebar-width));
+    height: calc(100vh - var(--topbar-height));
+    position: fixed;
+    left: var(--sidebar-width);
+    top: var(--topbar-height);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.4s, height 0.4s, left 0.4s, top 0.4s, background-color 0s; 
+}
+
+.sidebar-and-content.sidebar-collapsed .main-content {
+    width: calc(100vw - var(--sidebar-collapsed-width));
+    left: var(--sidebar-collapsed-width);
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        width: var(--sidebar-width);
+        left: -100%;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar {
+        width: var(--sidebar-width);
+        left: 0%;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar-nav-link-icon {
+        margin-right: 10px;
+        border: none;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar-nav-link-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar-nav-link-text {
+        display: block;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar-nav-item-subitems .sidebar-nav-item {
+        margin-left: 28px;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar-nav-link {
+        justify-content: start;
+    }
+
+    .sidebar-and-content.sidebar-collapsed .sidebar-nav-link-toggle-icon {
+        display: block;
+    }
+
+    .main-content,
+    .sidebar-and-content.sidebar-collapsed .main-content {
+        width: 100vw;
+        left: 0px;
+    }
+}
+
+
+/* Data Table Custom Styles */
+.ogroz-data-table .dropdown-menu {
+    min-width: max-content;
+}

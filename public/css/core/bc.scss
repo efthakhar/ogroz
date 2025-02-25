@@ -1,0 +1,23 @@
+$min-contrast-ratio: 2.5;
+
+$primary: #066FD1;
+$secondary: #6c7a91;
+$success: #2fb344;
+$info: #4299e1;
+$warning: #f76707;
+$danger: #d33939;
+$light: #f6f8fb;
+$dark: #182433;
+
+$body-color: #182433; 
+$font-size-root: 14px;
+
+$btn-padding-y: 0.28rem; 
+$btn-padding-x: 0.56rem;
+
+
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+
+
+// npx sass public/css/core/bc.scss public/css/core/bootstrap.css

@@ -55,11 +55,11 @@
             </div>
         </div>
         <div class="row mb-3" id="filters">
-            <div class="col-md-3">
+            <div class="col-md-3 my-1">
                 <label for="" class="form-label">Name</label>
                 <input type="text" class="form-control" placeholder="name.." name='filter-name' class="filter-name" id='filter-name'>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 my-1">
                 <label for="" class="form-label">Type</label>
                 <select class="form-select" id="filter-type">
                     <option value="">=N/A=</option>

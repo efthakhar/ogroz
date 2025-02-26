@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Accounting\AccountGroupController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Setting\RoleController;
 use App\Http\Controllers\Setting\SystemConfigurationController;
 use App\Http\Controllers\Setting\UserController;
+use App\Models\Setting\AccountGroup;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,4 +39,9 @@ Route::group(['prefix' => 'app', 'middleware' => ['auth']], function () {
     //== System Configuration Route
     Route::get('system-configurations', [SystemConfigurationController::class, 'systemConfigurations'])->name('system.configurations');
     Route::post('system-configurations', [SystemConfigurationController::class, 'systemConfigurationsSubmit'])->name('system.configurations.submit');
+
+
+    //== Account Group Route
+    Route::resource('account-groups', AccountGroupController::class);
+    Route::post('account-groups/datatable', [AccountGroupController::class, 'datatable'])->name('account-groups.datatable');
 });

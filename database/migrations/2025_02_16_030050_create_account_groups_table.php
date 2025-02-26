@@ -15,7 +15,7 @@ return new class extends Migration
             $table->tinyInteger('active')->default(1);
             $table->enum('type', ['asset', 'liability', 'equity', 'income', 'expense']);
             $table->integer('level')->default(1);
-            $table->unsignedBigInteger('under')->nullable();
+            $table->unsignedBigInteger('parent_account_group_id')->nullable();
             $table->timestamps();
 
             $table->unique(['name', 'level'], 'name_level');

@@ -16,7 +16,9 @@ class DemoSeeder extends Seeder
     public function run(): void
     {
         try {
+
             Cache::flush();
+
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
             // Seed Permissions
@@ -28,7 +30,11 @@ class DemoSeeder extends Seeder
             //seed system configurations
             $this->seedSystemConfigurations();
 
+            //seed account groups
+            $this->accountGroupSeeder();
+
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
         } catch (Exception $e) {
             report($e);
             throw $e;
@@ -80,6 +86,42 @@ class DemoSeeder extends Seeder
             'company_phone_no' => 894829029,
             'company_email' => 'hexagontrading@yahoo.com',
             'company_address' => 'East Nasirabard, House No. 354, GEC, Chittagong',
+        ]);
+    }
+
+    public function accountGroupSeeder()
+    {
+        DB::table('account_groups')->truncate();
+
+
+        DB::table('account_groups')->insert([
+            'name' => 'Assets',
+            'type' => 'asset',
+            'parent_account_group_id' => NULL,
+        ]);
+        DB::table('account_groups')->insert([
+            'name' => 'Fixed Assets',
+            'type' => 'asset',
+            'parent_account_group_id' => 1,
+            'level' => 2,
+        ]);
+        DB::table('account_groups')->insert([
+            'name' => 'Building',
+            'type' => 'asset',
+            'parent_account_group_id' => 2,
+            'level' => 3,
+        ]);
+        DB::table('account_groups')->insert([
+            'name' => 'Building Wooden',
+            'type' => 'asset',
+            'parent_account_group_id' => 3,
+            'level' => 4,
+        ]);
+        DB::table('account_groups')->insert([
+            'name' => 'North Wooden Buildings',
+            'type' => 'asset',
+            'parent_account_group_id' => 4,
+            'level' => 5,
         ]);
     }
 }

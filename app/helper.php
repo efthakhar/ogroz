@@ -22,3 +22,12 @@ if (! function_exists('setOption')) {
         return json_decode($option->value);
     }
 }
+
+
+if (! function_exists('accountGroupTypes')) {
+
+    function accountGroupTypes()
+    {
+       return ['asset', 'liability', 'equity', 'income', 'expense'];
+    }
+}

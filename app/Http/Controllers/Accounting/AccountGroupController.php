@@ -16,7 +16,8 @@ class AccountGroupController extends Controller
     {
         $this->authorize('view account group');
         $types = accountGroupTypes();
-        return view('accounting.account-groups.index', compact('types'));
+        $accountGroupsTree = (new AccountGroupService())->getTree();
+        return view('accounting.account-groups.index', compact('types', 'accountGroupsTree'));
     }
 
     public function datatable(Request $request)
@@ -38,6 +39,9 @@ class AccountGroupController extends Controller
             })
             ->when(!empty($request->type), function ($q) use ($request) {
                 $q->where('type', '=',  $request->type);
+            })
+            ->when(!empty($request->parent_account_group_id), function ($q) use ($request) {
+                $q->where('parent_account_group_id', '=',  $request->parent_account_group_id);
             });
 
         $order = $request->get('order');

@@ -57,7 +57,8 @@
         <div class="row mb-3" id="filters">
             <div class="col-md-3 my-1">
                 <label for="" class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="name.." name='filter-name' class="filter-name" id='filter-name'>
+                <input type="text" class="form-control" placeholder="name.." name='filter-name' class="filter-name"
+                    id='filter-name'>
             </div>
             <div class="col-md-3 my-1">
                 <label for="" class="form-label">Type</label>
@@ -66,6 +67,13 @@
                     @foreach ($types as $type)
                         <option value="{{ $type }}">{{ $type }}</option>
                     @endforeach
+                </select>
+            </div>
+            <div class="col-md-3 my-1">
+                <label for="" class="form-label">Under</label>
+                <select class="form-select" id="filter-parent-account-group-id">
+                    <option value="">=N/A=</option>
+                    @include('accounting.account-groups.tree-component', ['items' => $accountGroupsTree])
                 </select>
             </div>
         </div>
@@ -212,6 +220,7 @@
                     data: function(d) {
                         d.name = $('#filter-name').val();
                         d.type = $('#filter-type').val();
+                        d.parent_account_group_id = $('#filter-parent-account-group-id').val();
                     }
                 },
                 columns: columnDefinitions.map(column => ({
@@ -235,7 +244,7 @@
                 table.draw();
             })
 
-            $('#filter-type').on('change', function(e) {
+            $('#filter-type, #filter-parent-account-group-id').on('change', function(e) {
                 table.draw();
             })
 

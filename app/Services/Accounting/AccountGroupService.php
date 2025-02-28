@@ -4,22 +4,26 @@
 namespace App\Services\Accounting;
 
 use App\Models\Accounting\AccountGroup;
+use Illuminate\Support\Facades\DB;
 
 class AccountGroupService
 {
-    public function getTree()
+    public function getAllNestedChildrenIds($id)
     {
-        return $this->buildTree(AccountGroup::orderBy('type')->get());
-    }
+        $query = "WITH RECURSIVE nested_items AS (
+            SELECT id, name, parent_account_group_id
+            FROM account_groups
+            WHERE id = ?
 
-    private function buildTree($items, $parentId = null)
-    {
-        return $items
-            ->where('parent_account_group_id', $parentId)
-            ->map(function ($item) use ($items) {
-                $item->childrens = $this->buildTree($items, $item->id);
-                return $item;
-            })
-            ->values();
+            UNION ALL
+
+            SELECT i.id, i.name, i.parent_account_group_id
+            FROM account_groups i
+            INNER JOIN nested_items ni ON i.parent_account_group_id = ni.id
+        )
+        SELECT * FROM nested_items WHERE id != ?;";
+        $result = DB::select($query, [$id, $id]);
+        $ids = array_column($result, 'id');
+        return $ids;
     }
 }

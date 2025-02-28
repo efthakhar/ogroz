@@ -57,12 +57,12 @@
         <div class="row mb-3" id="filters">
             <div class="col-md-3 my-1">
                 <label for="" class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="name.." name='filter-name' class="filter-name"
-                    id='filter-name'>
+                <input type="text" class="form-control" placeholder="name.." name='filter_name' class="filter_name"
+                    id='filter_name'>
             </div>
             <div class="col-md-3 my-1">
                 <label for="" class="form-label">Type</label>
-                <select class="form-select" id="filter-type">
+                <select class="form-select" id="filter_type">
                     <option value="">=N/A=</option>
                     @foreach ($types as $type)
                         <option value="{{ $type }}">{{ $type }}</option>
@@ -71,9 +71,8 @@
             </div>
             <div class="col-md-3 my-1">
                 <label for="" class="form-label">Under</label>
-                <select class="form-select" id="filter-parent-account-group-id">
+                <select class="form-select" id="filter_parent_account_group_id">
                     <option value="">=N/A=</option>
-                    @include('accounting.account-groups.tree-component', ['items' => $accountGroupsTree])
                 </select>
             </div>
         </div>
@@ -87,6 +86,34 @@
 @section('page-scripts')
     <script>
         $(document).ready(function() {
+
+
+            let accountGroups = @json($accountGroups);
+
+            let nestedAccountGroups = buildNestedOptionsForSelect2(
+                accountGroups,
+                'parent_account_group_id',
+                'name',
+                'id',
+                parentId = null
+            );
+
+            const flattenData = (data, prefix = '') => data.flatMap(({
+                id,
+                text,
+                children
+            }) => [{
+                id,
+                text: prefix + text
+            }, ...flattenData(children, prefix + '- ')]);
+
+
+            $('#filter_parent_account_group_id')
+                .select2({
+                    data: flattenData(nestedAccountGroups),
+                    placeholder: "=N/A=",
+                    allowClear: true,
+                });
 
             const columnDefinitions = [{
                     name: 'Select All',
@@ -181,6 +208,7 @@
             $('#account-groups-table').empty().append(thead);
 
             const table = $('#account-groups-table').DataTable({
+                order: [],
                 lengthMenu: [
                     [10, 25, 50, 100, 500, 1000],
                     [10, 25, 50, 100, 500, 1000]
@@ -218,9 +246,9 @@
                     url: '{{ route('account-groups.datatable') }}',
                     type: 'POST',
                     data: function(d) {
-                        d.name = $('#filter-name').val();
-                        d.type = $('#filter-type').val();
-                        d.parent_account_group_id = $('#filter-parent-account-group-id').val();
+                        d.name = $('#filter_name').val();
+                        d.type = $('#filter_type').val();
+                        d.parent_account_group_id = $('#filter_parent_account_group_id').val();
                     }
                 },
                 columns: columnDefinitions.map(column => ({
@@ -229,6 +257,7 @@
                     orderable: column.orderable,
                     render: column.render
                 })),
+               
 
             });
 
@@ -240,11 +269,11 @@
             })
 
             //== Refresh Datatable on Filter Change
-            $('#filter-name').on('keyup', function(e) {
+            $('#filter_name').on('keyup', function(e) {
                 table.draw();
             })
 
-            $('#filter-type, #filter-parent-account-group-id').on('change', function(e) {
+            $('#filter_type, #filter_parent_account_group_id').on('change', function(e) {
                 table.draw();
             })
 

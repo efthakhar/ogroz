@@ -7,6 +7,7 @@ use App\Models\Accounting\AccountGroup;
 use App\Services\Accounting\AccountGroupService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AccountGroupController extends Controller
 {
@@ -16,8 +17,8 @@ class AccountGroupController extends Controller
     {
         $this->authorize('view account group');
         $types = accountGroupTypes();
-        $accountGroupsTree = (new AccountGroupService())->getTree();
-        return view('accounting.account-groups.index', compact('types', 'accountGroupsTree'));
+        $accountGroups = AccountGroup::get();
+        return view('accounting.account-groups.index', compact('types', 'accountGroups'));
     }
 
     public function datatable(Request $request)
@@ -32,16 +33,15 @@ class AccountGroupController extends Controller
         $perPage = (int)$length > 0 ? $length : 10;
 
         $query =  AccountGroup::query();
-
         $query
             ->when(!empty($request->name), function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->name . '%');
             })
             ->when(!empty($request->type), function ($q) use ($request) {
-                $q->where('type', '=',  $request->type);
+                $q->where('type', '=', $request->type);
             })
             ->when(!empty($request->parent_account_group_id), function ($q) use ($request) {
-                $q->where('parent_account_group_id', '=',  $request->parent_account_group_id);
+                $q->whereIn('id', (new AccountGroupService())->getAllNestedChildrenIds($request->parent_account_group_id));
             });
 
         $order = $request->get('order');
@@ -80,10 +80,16 @@ class AccountGroupController extends Controller
         $ids = explode(',', $id);
 
         try {
+
+            /**
+             * Before Delete Ensure
+             * - total nested children == 0
+             * - total nested account == 0
+             */
             DB::beginTransaction();
             foreach ($ids as $id) {
                 $accountGroup = AccountGroup::find($id);
-                $accountGroup - delete();
+                $accountGroup->delete();
             }
 
             DB::commit();

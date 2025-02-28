@@ -23,9 +23,4 @@ class AccountGroup extends Model
     {
         return $this->hasMany(AccountGroup::class, 'parent_account_group_id');
     }
-
-    public function childrensRecursive()
-    {
-        return $this->children()->with('childrenRecursive');
-    }
 }

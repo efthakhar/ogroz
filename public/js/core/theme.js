@@ -108,4 +108,13 @@ function getCurrentFormattedDate() {
 
 
 
-
+//===== Build Tree Like Js Array from Flat Array
+function buildNestedOptionsForSelect2(data, parent_identifier, label_identifier, value_identifier, parentId = null) {
+    return data
+        .filter((item) => item[parent_identifier] === parentId)
+        .map((item) => ({
+            id: item[value_identifier],
+            text: item[label_identifier],
+            children: buildNestedOptionsForSelect2(data, parent_identifier, label_identifier, value_identifier, item.id),
+        }));
+}

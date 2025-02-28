@@ -2,9 +2,11 @@
 
 namespace Database\Seeders\Demo;
 
+use App\Models\Accounting\AccountGroup;
 use App\Models\Setting\User;
 use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +18,8 @@ class DemoSeeder extends Seeder
     public function run(): void
     {
         try {
+
+            Artisan::call('migrate:fresh');
 
             Cache::flush();
 
@@ -34,7 +38,6 @@ class DemoSeeder extends Seeder
             $this->accountGroupSeeder();
 
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
-
         } catch (Exception $e) {
             report($e);
             throw $e;
@@ -93,37 +96,199 @@ class DemoSeeder extends Seeder
     {
         DB::table('account_groups')->truncate();
 
-
-        DB::table('account_groups')->insert([
-            'name' => 'Assets',
+        // Asset Type Accounts
+        $bankAccounts = AccountGroup::create([
+            'name' => 'Bank Accounts',
             'type' => 'asset',
             'parent_account_group_id' => NULL,
         ]);
-        DB::table('account_groups')->insert([
+
+        $CashInHand = AccountGroup::create([
+            'name' => 'Cash-in-hand',
+            'type' => 'asset',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $currentAssets = AccountGroup::create([
+            'name' => 'Current Assets',
+            'type' => 'asset',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $sundryDebtors = AccountGroup::create([
+            'name' => 'Sundry Debtors',
+            'type' => 'asset',
+            'parent_account_group_id' =>  $currentAssets->id,
+        ]);
+
+        $stockInHand = AccountGroup::create([
+            'name' => 'Stock-in-hand',
+            'type' => 'asset',
+            'parent_account_group_id' =>  $currentAssets->id,
+        ]);
+
+        $loansAndAdvancesAsset = AccountGroup::create([
+            'name' => 'Loans and Advances (Asset)',
+            'type' => 'asset',
+            'parent_account_group_id' =>  $currentAssets->id,
+        ]);
+
+        $depositsAsset = AccountGroup::create([
+            'name' => 'Deposits (Asset)',
+            'type' => 'asset',
+            'parent_account_group_id' =>  $currentAssets->id,
+        ]);
+
+        $fixedAssets = AccountGroup::create([
             'name' => 'Fixed Assets',
             'type' => 'asset',
-            'parent_account_group_id' => 1,
-            'level' => 2,
+            'parent_account_group_id' =>  NULL,
         ]);
-        DB::table('account_groups')->insert([
-            'name' => 'Building',
+
+        $land = AccountGroup::create([
+            'name' => 'Land',
             'type' => 'asset',
-            'parent_account_group_id' => 2,
-            'level' => 3,
+            'parent_account_group_id' => $fixedAssets->id,
         ]);
-        DB::table('account_groups')->insert([
-            'name' => 'Building Wooden',
+
+        $buildings = AccountGroup::create([
+            'name' => 'Buildings',
             'type' => 'asset',
-            'parent_account_group_id' => 3,
-            'level' => 4,
+            'parent_account_group_id' => $fixedAssets->id,
         ]);
-        DB::table('account_groups')->insert([
-            'name' => 'North Wooden Buildings',
+
+        $plantAndMachinery = AccountGroup::create([
+            'name' => 'Plant & Machinery',
             'type' => 'asset',
-            'parent_account_group_id' => 4,
-            'level' => 5,
+            'parent_account_group_id' => $fixedAssets->id,
+        ]);
+
+        $furnitureAndFixtures = AccountGroup::create([
+            'name' => 'Furniture & Fixtures',
+            'type' => 'asset',
+            'parent_account_group_id' => $fixedAssets->id,
+        ]);
+
+        $vehicles = AccountGroup::create([
+            'name' => 'Vehicles',
+            'type' => 'asset',
+            'parent_account_group_id' => $fixedAssets->id,
+        ]);
+
+        $computers = AccountGroup::create([
+            'name' => 'Computers',
+            'type' => 'asset',
+            'parent_account_group_id' => $fixedAssets->id,
+        ]);
+
+        $investments = AccountGroup::create([
+            'name' => 'Invenstments',
+            'type' => 'asset',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        // Liability Types Groups
+        $bankODAc = AccountGroup::create([
+            'name' => 'Bank OD A/c',
+            'type' => 'liability',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $currentLiabilities = AccountGroup::create([
+            'name' => 'Current Liabilities',
+            'type' => 'liability',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $sundryCreditors = AccountGroup::create([
+            'name' => 'Sundry Creditors',
+            'type' => 'liability',
+            'parent_account_group_id' => $currentLiabilities->id,
+        ]);
+
+        $provisions = AccountGroup::create([
+            'name' => 'Provisions',
+            'type' => 'liability',
+            'parent_account_group_id' => $currentLiabilities->id,
+        ]);
+        
+        $dutiesAndTaxes = AccountGroup::create([
+            'name' => 'Duties & Taxes',
+            'type' => 'liability',
+            'parent_account_group_id' => $currentLiabilities->id,
+        ]);
+
+        $loansLiability = AccountGroup::create([
+            'name' => 'Loans (Liability)',
+            'type' => 'liability',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $securedLoans = AccountGroup::create([
+            'name' => 'Secured Loans',
+            'type' => 'liability',
+            'parent_account_group_id' => $loansLiability->id,
+        ]);
+
+        $unsecuredLoans = AccountGroup::create([
+            'name' => 'Unsecured Loans',
+            'type' => 'liability',
+            'parent_account_group_id' => $loansLiability->id,
+        ]);
+
+        //Income Type Groups
+        $directIncomes = AccountGroup::create([
+            'name' => 'Direct Incomes',
+            'type' => 'income',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $indirectIncomes = AccountGroup::create([
+            'name' => 'Indirect Incomes',
+            'type' => 'income',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $salesAccounts = AccountGroup::create([
+            'name' => 'Sales Accounts',
+            'type' => 'income',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        // Expense Account Groups
+        $directExpenses = AccountGroup::create([
+            'name' => 'Direct Expenses',
+            'type' => 'expense',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $indirectExpenses = AccountGroup::create([
+            'name' => 'Indirect Expenses',
+            'type' => 'expense',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $purchaseAccounts = AccountGroup::create([
+            'name' => 'Purchase Accounts',
+            'type' => 'expense',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        // Equity Group Type
+        $capitalAccount = AccountGroup::create([
+            'name' => 'Capital Account',
+            'type' => 'equity',
+            'parent_account_group_id' => NULL,
+        ]);
+
+        $reservesAndSurplus = AccountGroup::create([
+            'name' => 'Reserves & Surplus',
+            'type' => 'equity',
+            'parent_account_group_id' => NULL,
         ]);
     }
 }
+
+
 
 // php artisan db:seed --class="Database\Seeders\Demo\DemoSeeder"

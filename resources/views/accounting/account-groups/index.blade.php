@@ -132,6 +132,11 @@
                     name: 'Type',
                     data: 'type',
                 },
+                {
+                    name: 'Under',
+                    data: 'under',
+                    orderable: false,
+                },
 
                 @canany(['edit account group', 'delete account group', 'view account group'])
                     {

@@ -8,9 +8,7 @@ class AccountGroup extends Model
 {
     protected $fillable = [
         'name',
-        'active',
         'type',
-        'level',
         'parent_account_group_id'
     ];
 

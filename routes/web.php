@@ -42,6 +42,7 @@ Route::group(['prefix' => 'app', 'middleware' => ['auth']], function () {
 
 
     //== Account Group Route
+    Route::get('account-groups/dropdown', [AccountGroupController::class, 'dropdown'])->name('account-groups.dropdown');
     Route::resource('account-groups', AccountGroupController::class);
     Route::post('account-groups/datatable', [AccountGroupController::class, 'datatable'])->name('account-groups.datatable');
 });

@@ -11,14 +11,10 @@ return new class extends Migration
         Schema::create('account_groups', function (Blueprint $table) {
 
             $table->id();
-            $table->string('name');
-            $table->tinyInteger('active')->default(1);
+            $table->string('name')->unique();
             $table->enum('type', ['asset', 'liability', 'equity', 'income', 'expense']);
-            $table->integer('level')->default(1);
             $table->unsignedBigInteger('parent_account_group_id')->nullable();
             $table->timestamps();
-
-            $table->unique(['name', 'level'], 'name_level');
         });
     }
 

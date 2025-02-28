@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('page-content')
     <div class="d-flex flex-wrap align-items-center py-2">
-        <h5 class="h4 me-auto">Create Role</h5>
+        <h5 class="h4 me-auto">{{ empty($role) ? 'Create':'Edit'}} Role</h5>
         <div class="d-flex flex-wrap align-items-center">
             <a class="btn btn-primary m-1" href="{{ route('roles.index') }}">
                 <i class="ri-list-check"></i>

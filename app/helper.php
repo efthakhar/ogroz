@@ -28,6 +28,20 @@ if (! function_exists('accountGroupTypes')) {
 
     function accountGroupTypes()
     {
-       return ['asset', 'liability', 'equity', 'income', 'expense'];
+        return ['asset', 'liability', 'equity', 'income', 'expense'];
+    }
+}
+
+if (! function_exists('accountGroupTypesForDropdown')) {
+
+    function accountGroupTypesForDropdown()
+    {
+        return [
+            'asset' => 'asset',
+            'liability' => 'liability',
+            'equity' => 'equity',
+            'income' => 'income',
+            'expense' => 'expense'
+        ];
     }
 }

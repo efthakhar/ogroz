@@ -186,7 +186,7 @@
         </div>
     </div>
     <div
-        class="bg-white-subtle width-100 cursor-pointer rounded-0 sidebar-toggle-icon d-flex justify-content-center border-top p-2 position-sticky bottom-0 margin-top-auto">
+        class="bg-body width-100 cursor-pointer rounded-0 sidebar-toggle-icon d-flex justify-content-center border-top p-2 position-sticky bottom-0 margin-top-auto ">
         <i class="ri-arrow-left-double-line ri-lg"></i>
     </div>
 </div>

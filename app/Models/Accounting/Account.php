@@ -9,22 +9,21 @@ class Account extends Model
 {
     protected $fillable = [
         'name',
-        'active',
+        'number',
         'accountable_type',
         'accountable_id',
-        'name',
-        'number',
         'account_group_id',
         'opening_debit',
         'opening_credit',
         'opening_base_currency_id',
         'opening_currency_id',
         'opening_exchange_rate',
+        'active',
     ];
 
 
     public function accountGroup(): BelongsTo
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(AccountGroup::class);
     }
 }

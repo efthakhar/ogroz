@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class AccountGroupService
 {
-    public function getAllNestedChildrenIds($id)
+    public static function getAllNestedChildrenIds($id)
     {
         $query = "WITH RECURSIVE nested_items AS (
             SELECT id, name, parent_account_group_id

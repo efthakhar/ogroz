@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounting\AccountController;
 use App\Http\Controllers\Accounting\AccountGroupController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\AuthController;
@@ -36,13 +37,20 @@ Route::group(['prefix' => 'app', 'middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     Route::post('roles/datatable', [RoleController::class, 'datatable'])->name('roles.datatable');
 
-    //== System Configuration Route
+    //== System Configuration Routes
     Route::get('system-configurations', [SystemConfigurationController::class, 'systemConfigurations'])->name('system.configurations');
     Route::post('system-configurations', [SystemConfigurationController::class, 'systemConfigurationsSubmit'])->name('system.configurations.submit');
 
 
-    //== Account Group Route
+    //== Account Group Routes
     Route::get('account-groups/dropdown', [AccountGroupController::class, 'dropdown'])->name('account-groups.dropdown');
     Route::resource('account-groups', AccountGroupController::class);
     Route::post('account-groups/datatable', [AccountGroupController::class, 'datatable'])->name('account-groups.datatable');
+    
+    //== Accounts Routes
+    Route::get('accounts/dropdown', [AccountController::class, 'dropdown'])->name('accounts.dropdown');
+    Route::resource('accounts', AccountController::class);
+    Route::post('accounts/datatable', [AccountController::class, 'datatable'])->name('accounts.datatable');
+
+    
 });

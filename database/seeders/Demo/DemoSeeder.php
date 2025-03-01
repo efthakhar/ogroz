@@ -103,11 +103,50 @@ class DemoSeeder extends Seeder
             'parent_account_group_id' => NULL,
         ]);
 
-        $CashInHand = AccountGroup::create([
+        $bankAccounts->accounts()->createMany([
+            [
+                'name' => 'ABC Bank - 7920011',
+                'opening_debit' => 60000,
+            ],
+            [
+                'name' => 'Jamuna Bank - 9032314',
+                'opening_debit' => 50000,
+            ],
+            [
+                'name' => 'Rupali Bank - 5001300',
+                'opening_debit' => 100000,
+            ],
+            [
+                'name' => 'Dhaka Bank - 5001300',
+                'opening_debit' => 20000,
+            ],
+        ]);
+
+        $cashInHand = AccountGroup::create([
             'name' => 'Cash-in-hand',
             'type' => 'asset',
             'parent_account_group_id' => NULL,
         ]);
+
+        $cashInHand->accounts()->createMany([
+            [
+                'name' => 'Main Cash',
+                'opening_debit' => 503033,
+            ],
+            [
+                'name' => 'Petty Cash',
+                'opening_debit' => 77417,
+            ],
+            [
+                'name' => 'GEC Branch Cash',
+                'opening_debit' => 22051,
+            ],
+            [
+                'name' => 'Sales Counter Cash',
+                'opening_debit' => 91111,
+            ],
+        ]);
+
 
         $currentAssets = AccountGroup::create([
             'name' => 'Current Assets',
@@ -119,6 +158,37 @@ class DemoSeeder extends Seeder
             'name' => 'Sundry Debtors',
             'type' => 'asset',
             'parent_account_group_id' =>  $currentAssets->id,
+        ]);
+
+        $sundryDebtors->accounts()->createMany([
+            [
+                'name' => 'Jacky Chaan',
+                'opening_debit' => 1800,
+            ],
+            [
+                'name' => 'Maurise Brown',
+                'opening_debit' => 4900,
+            ],
+            [
+                'name' => 'Oliva Bowman',
+                'opening_debit' => 6825,
+            ],
+            [
+                'name' => 'Jemmy Henry',
+                'opening_debit' => 1076,
+            ],
+            [
+                'name' => 'Devid Javi',
+                'opening_debit' => 2191,
+            ],
+            [
+                'name' => 'Mrs Melinda',
+                'opening_debit' => 5173,
+            ],
+            [
+                'name' => 'J&K Restaurent',
+                'opening_debit' => 4200,
+            ],
         ]);
 
         $stockInHand = AccountGroup::create([
@@ -206,12 +276,23 @@ class DemoSeeder extends Seeder
             'parent_account_group_id' => $currentLiabilities->id,
         ]);
 
+        $sundryCreditors->accounts()->createMany([
+            [
+                'name' => 'Bagdad Distributor Agrabad',
+                'opening_credit' => 4000,
+            ],
+            [
+                'name' => 'Hasib Traders',
+                'opening_credit' => 4000,
+            ],
+        ]);
+
         $provisions = AccountGroup::create([
             'name' => 'Provisions',
             'type' => 'liability',
             'parent_account_group_id' => $currentLiabilities->id,
         ]);
-        
+
         $dutiesAndTaxes = AccountGroup::create([
             'name' => 'Duties & Taxes',
             'type' => 'liability',

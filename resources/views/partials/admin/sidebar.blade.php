@@ -85,7 +85,7 @@
                     <i class="ri-arrow-down-s-fill"></i>
                 </span>
             </a>
-            <div class="sidebar-nav-item-subitems {{ request()->routeIs('account-groups.*') ? 'collapsed' : '' }}">
+            <div class="sidebar-nav-item-subitems {{ request()->routeIs('account-groups.*', 'accounts.*') ? 'collapsed' : '' }}">
                 <div class="sidebar-nav-item ">
                     <a class="sidebar-nav-link text-body">
                         <span class="sidebar-nav-link-icon">
@@ -96,7 +96,7 @@
                         </span>
                     </a>
                 </div>
-                <div class="sidebar-nav-item ">
+                <div class="sidebar-nav-item">
                     <a class="sidebar-nav-link text-body {{ request()->routeIs('account-groups.*') ? 'active' : '' }}" href="{{ route('account-groups.index') }}" >
                         <span class="sidebar-nav-link-icon">
                             <i class="ri-book-shelf-line ri-lg"></i>
@@ -106,8 +106,8 @@
                         </span>
                     </a>
                 </div>
-                <div class="sidebar-nav-item ">
-                    <a class="sidebar-nav-link text-body">
+                <div class="sidebar-nav-item" >
+                    <a class="sidebar-nav-link text-body {{ request()->routeIs('accounts.*') ? 'active' : '' }}" href="{{ route('accounts.index') }}">
                         <span class="sidebar-nav-link-icon">
                             <i class="ri-article-line ri-lg"></i>
                         </span>

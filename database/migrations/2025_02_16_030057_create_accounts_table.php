@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('accountable_type')->nullable();
             $table->unsignedBigInteger('accountable_id')->nullable();
             $table->string('name')->unique();
-            $table->string('number')->unique();
+            $table->string('number')->unique()->nullable();
             $table->unsignedBigInteger('account_group_id');
             $table->double('opening_debit')->default(0);
             $table->double('opening_credit')->default(0);

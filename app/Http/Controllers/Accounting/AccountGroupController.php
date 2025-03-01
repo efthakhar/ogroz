@@ -44,7 +44,7 @@ class AccountGroupController extends Controller
                 $q->where('type', '=', $request->type);
             })
             ->when(!empty($request->parent_account_group_id), function ($q) use ($request) {
-                $q->whereIn('id', (new AccountGroupService())->getAllNestedChildrenIds($request->parent_account_group_id));
+                $q->whereIn('id', [...AccountGroupService::getAllNestedChildrenIds($request->parent_account_group_id)]);
             });
 
         $order = $request->get('order');
@@ -80,7 +80,7 @@ class AccountGroupController extends Controller
         return AccountGroup::when($request->type, function ($q) use ($request) {
             $q->where('type', $request->type);
         })->when($request->omit, function ($q) use ($request) {
-            $q->whereNotIn('id', [$request->omit, ...(new AccountGroupService)->getAllNestedChildrenIds($request->omit)]);
+            $q->whereNotIn('id', [$request->omit, ...AccountGroupService::getAllNestedChildrenIds($request->omit)]);
         })->get();
     }
 

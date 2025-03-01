@@ -2,9 +2,9 @@
 @section('page-content')
     <div class="ogroz-data-table">
         <div class="d-flex flex-wrap align-items-center py-2">
-            <h5 class="h4 me-auto">Account Groups</h5>
+            <h5 class="h4 me-auto">Accounts</h5>
             <div class="d-flex flex-wrap align-items-center">
-                @can('delete account groups')
+                @can('delete accounts')
                     <button class="btn bulk-delete-rows text-danger shadow border bg-body m-1 d-none">
                         <i class="ri-delete-bin-7-line"></i>
                     </button>
@@ -12,7 +12,6 @@
                 <button class="btn border bg-body text-body m-1 refresh-datatable">
                     <i class="ri-loop-left-line"></i>
                 </button>
-
                 <div class="btn-group ogroz-data-table__export">
                     <button class="btn border bg-body text-body m-1 dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-expanded="false">
@@ -46,8 +45,8 @@
                     </ul>
                 </div>
 
-                @can('create account group')
-                    <a class="btn btn-primary m-1" href="{{ route('account-groups.create') }}">
+                @can('create account')
+                    <a class="btn btn-primary m-1" href="{{ route('accounts.create') }}">
                         <i class="ri-add-circle-line"></i>
                         Add New
                     </a>
@@ -61,23 +60,14 @@
                     id='filter_name'>
             </div>
             <div class="col-md-3 my-1">
-                <label for="" class="form-label">Type</label>
-                <select class="form-select" id="filter_type">
-                    <option value="">=N/A=</option>
-                    @foreach ($types as $type)
-                        <option value="{{ $type }}">{{ $type }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-3 my-1">
                 <label for="" class="form-label">Under</label>
-                <select class="form-select" id="filter_parent_account_group_id">
+                <select class="form-select" id="filter_account_group_id">
                     <option value="">=N/A=</option>
                 </select>
             </div>
         </div>
         <div class="p-3 rounded bg-body border mt-2 table-responsive">
-            <table class="table table-hover rounded-2 overflow-hidden display" id='account-groups-table'>
+            <table class="table table-hover rounded-2 overflow-hidden display" id='accounts-table'>
             </table>
         </div>
     </div>
@@ -108,7 +98,7 @@
             }, ...flattenData(children, prefix + '- ')]);
 
 
-            $('#filter_parent_account_group_id')
+            $('#filter_account_group_id')
                 .select2({
                     data: flattenData(nestedAccountGroups),
                     placeholder: "=N/A=",
@@ -129,8 +119,8 @@
                     data: 'name',
                 },
                 {
-                    name: 'Type',
-                    data: 'type',
+                    name: 'Number',
+                    data: 'number',
                 },
                 {
                     name: 'Under',
@@ -138,7 +128,7 @@
                     orderable: false,
                 },
 
-                @canany(['edit account group', 'delete account group', 'view account group'])
+                @canany(['edit account', 'delete account', 'view account'])
                     {
                         name: 'Action',
                         data: null,
@@ -152,25 +142,25 @@
                                             <ul class="dropdown-menu">
                                             `;
 
-                            @can('view account group')
+                            @can('view account')
                                 html += `<li>
-                                            <a href="{{ route('account-groups.show', ':id') }}" class="dropdown-item action-btn">
+                                            <a href="{{ route('accounts.show', ':id') }}" class="dropdown-item action-btn">
                                                 <i class="ri-eye-line ri-1x me-2"></i> View
                                             </a>
                                         </li>`.replace(':id', row.id);
                             @endcan
 
-                            @can('edit account group')
+                            @can('edit account')
                                 html += `<li>
-                                            <a href="{{ route('account-groups.edit', ':id') }}" class="dropdown-item action-btn">
+                                            <a href="{{ route('accounts.edit', ':id') }}" class="dropdown-item action-btn">
                                                 <i class="ri-pencil-line ri-1x me-2"></i> Edit
                                             </a>
                                         </li>`.replace(':id', row.id);
                             @endcan
 
-                            @can('delete account group')
+                            @can('delete account')
                                 html += `<li>
-                                            <a data-action-url="{{ route('account-groups.destroy', ':id') }}" class="btn dropdown-item action-btn delete-item">
+                                            <a data-action-url="{{ route('accounts.destroy', ':id') }}" class="btn dropdown-item action-btn delete-item">
                                                  <i class="ri-delete-bin-line ri-1x me-2"></i> Delete
                                             </a>
                                         </li>`.replace(':id', row.id);
@@ -210,9 +200,9 @@
             });
 
 
-            $('#account-groups-table').empty().append(thead);
+            $('#accounts-table').empty().append(thead);
 
-            const table = $('#account-groups-table').DataTable({
+            const table = $('#accounts-table').DataTable({
                 order: [],
                 lengthMenu: [
                     [10, 25, 50, 100, 500, 1000],
@@ -248,12 +238,11 @@
                 ],
 
                 ajax: {
-                    url: '{{ route('account-groups.datatable') }}',
+                    url: '{{ route('accounts.datatable') }}',
                     type: 'POST',
                     data: function(d) {
                         d.name = $('#filter_name').val();
-                        d.type = $('#filter_type').val();
-                        d.parent_account_group_id = $('#filter_parent_account_group_id').val();
+                        d.account_group_id = $('#filter_account_group_id').val();
                     }
                 },
                 columns: columnDefinitions.map(column => ({
@@ -278,7 +267,7 @@
                 table.draw();
             })
 
-            $('#filter_type, #filter_parent_account_group_id').on('change', function(e) {
+            $('#filter_type, #filter_account_group_id').on('change', function(e) {
                 table.draw();
             })
 
@@ -395,7 +384,7 @@
 
                 e.preventDefault();
                 const element = $(this);
-                const url = "{{ route('account-groups.destroy', ':id') }}".replace(':id', selectedIds);
+                const url = "{{ route('accounts.destroy', ':id') }}".replace(':id', selectedIds);
 
                 Swal.fire({
 

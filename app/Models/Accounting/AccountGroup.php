@@ -21,4 +21,9 @@ class AccountGroup extends Model
     {
         return $this->hasMany(AccountGroup::class, 'parent_account_group_id');
     }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 }

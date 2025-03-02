@@ -99,7 +99,7 @@ class AccountController extends Controller
     {
         $this->authorize('create account');
         $types = accountGroupTypesForDropdown();
-        return view('accounting.account-groups.create', compact('types'));
+        return view('accounting.accounts.create', compact('types'));
     }
 
 
@@ -116,7 +116,7 @@ class AccountController extends Controller
             DB::transaction(function () use ($request) {
                 AccountGroup::create($request->only('name', 'type', 'parent_account_group_id'));
             });
-            return redirect()->route('account-groups.index')->with('success', 'Account group created successfully');
+            return redirect()->route('accounts.index')->with('success', 'Account group created successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -128,7 +128,7 @@ class AccountController extends Controller
         $this->authorize('edit account');
         $types = accountGroupTypesForDropdown();
         $accountGroup = AccountGroup::find($id);
-        return view('accounting.account-groups.create', compact('types', 'accountGroup'));
+        return view('accounting.accounts.create', compact('types', 'accountGroup'));
     }
 
     public function update(Request $request, $id)
@@ -148,7 +148,7 @@ class AccountController extends Controller
                 AccountGroup::findOrFail($id)
                     ->update($request->only('name', 'type', 'parent_account_group_id'));
             });
-            return redirect()->route('account-groups.index')->with('success', 'Account group updated successfully');
+            return redirect()->route('accounts.index')->with('success', 'Account group updated successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -163,8 +163,7 @@ class AccountController extends Controller
 
             /**
              * Before Delete Ensure
-             * - total nested children == 0
-             * - total nested account == 0
+             * - total journal entry
              */
             DB::beginTransaction();
             foreach ($ids as $id) {
@@ -177,14 +176,14 @@ class AccountController extends Controller
 
             return $request->ajax()
                 ? response()->json(['message' => $message], 200)
-                : redirect()->route('account-groups.index')->with('success', $message);
+                : redirect()->route('accounts.index')->with('success', $message);
         } catch (Exception $e) {
 
             DB::rollBack();
             $errorMessage = $e->getMessage();
             return $request->ajax()
                 ? response()->json(['message' => $errorMessage], 500)
-                : redirect()->route('account-groups.index')->withInput()->with('error', $errorMessage);
+                : redirect()->route('accounts.index')->withInput()->with('error', $errorMessage);
         }
     }
 }

@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\Accounting\AccountController;
-use App\Http\Controllers\Accounting\AccountGroupController;
+
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Setting\RoleController;
 use App\Http\Controllers\Setting\SystemConfigurationController;
 use App\Http\Controllers\Setting\UserController;
-use App\Models\Setting\AccountGroup;
+use App\Http\Controllers\Accounting\AccountController;
+use App\Http\Controllers\Accounting\AccountGroupController;
+use App\Http\Controllers\Accounting\JournalEntryController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,11 +48,12 @@ Route::group(['prefix' => 'app', 'middleware' => ['auth']], function () {
     Route::get('account-groups/dropdown', [AccountGroupController::class, 'dropdown'])->name('account-groups.dropdown');
     Route::resource('account-groups', AccountGroupController::class);
     Route::post('account-groups/datatable', [AccountGroupController::class, 'datatable'])->name('account-groups.datatable');
-    
+
     //== Accounts Routes
     Route::get('accounts/dropdown', [AccountController::class, 'dropdown'])->name('accounts.dropdown');
     Route::resource('accounts', AccountController::class);
     Route::post('accounts/datatable', [AccountController::class, 'datatable'])->name('accounts.datatable');
 
-    
+    //== Journal Entry Routes
+    Route::resource('journal-entries', JournalEntryController::class);
 });

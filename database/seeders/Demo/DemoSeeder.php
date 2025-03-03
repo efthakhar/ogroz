@@ -92,345 +92,6 @@ class DemoSeeder extends Seeder
         ]);
     }
 
-    // public function accountGroupSeeder()
-    // {
-    //     DB::table('account_groups')->truncate();
-
-    //     // Asset Type Accounts
-    //     $bankAccounts = AccountGroup::create([
-    //         'name' => 'Bank Accounts',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $bankAccounts->accounts()->createMany([
-    //         [
-    //             'name' => 'ABC Bank - 7920011',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Jamuna Bank - 9032314',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Rupali Bank - 5001300',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Dhaka Bank - 5001300',
-    //             'opening_debit' => 0,
-    //         ],
-    //     ]);
-
-    //     $cashInHand = AccountGroup::create([
-    //         'name' => 'Cash-in-hand',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $cashInHand->accounts()->createMany([
-    //         [
-    //             'name' => 'Main Cash',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Petty Cash',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'GEC Branch Cash',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Sales Counter Cash',
-    //             'opening_debit' => 0,
-    //         ],
-    //     ]);
-
-
-    //     $currentAssets = AccountGroup::create([
-    //         'name' => 'Current Assets',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $sundryDebtors = AccountGroup::create([
-    //         'name' => 'Sundry Debtors',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' =>  $currentAssets->id,
-    //     ]);
-
-    //     $sundryDebtors->accounts()->createMany([
-    //         [
-    //             'name' => 'Jacky Chaan',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Maurise Brown',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Oliva Bowman',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Jemmy Henry',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Devid Javi',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Mrs Melinda',
-    //             'opening_debit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'J&K Restaurent',
-    //             'opening_debit' => 0,
-    //         ],
-    //     ]);
-
-    //     $stockInHand = AccountGroup::create([
-    //         'name' => 'Stock-in-hand',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' =>  $currentAssets->id,
-    //     ]);
-
-    //     $stockInHand->accounts()->createMany([
-    //         ['name' => 'Inventory - Grocery Items'],
-    //         ['name' => 'Inventory - Packaged Food & Beverages'],
-    //         ['name' => 'Inventory - Health & Beauty Products'],
-    //         ['name' => 'Inventory - Electronic Accessories'],
-    //         ['name' => 'Inventory - Miscellaneous Items'],
-    //     ]);
-
-
-    //     $loansAndAdvancesAsset = AccountGroup::create([
-    //         'name' => 'Loans and Advances (Asset)',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' =>  $currentAssets->id,
-    //     ]);
-
-    //     $depositsAsset = AccountGroup::create([
-    //         'name' => 'Deposits (Asset)',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' =>  $currentAssets->id,
-    //     ]);
-
-    //     $fixedAssets = AccountGroup::create([
-    //         'name' => 'Fixed Assets',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' =>  NULL,
-    //     ]);
-
-    //     $land = AccountGroup::create([
-    //         'name' => 'Land',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => $fixedAssets->id,
-    //     ]);
-
-    //     $buildings = AccountGroup::create([
-    //         'name' => 'Buildings',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => $fixedAssets->id,
-    //     ]);
-
-    //     $plantAndMachinery = AccountGroup::create([
-    //         'name' => 'Plant & Machinery',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => $fixedAssets->id,
-    //     ]);
-
-    //     $furnitureAndFixtures = AccountGroup::create([
-    //         'name' => 'Furniture & Fixtures',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => $fixedAssets->id,
-    //     ]);
-
-    //     $vehicles = AccountGroup::create([
-    //         'name' => 'Vehicles',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => $fixedAssets->id,
-    //     ]);
-
-    //     $computers = AccountGroup::create([
-    //         'name' => 'Computers',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => $fixedAssets->id,
-    //     ]);
-
-    //     $investments = AccountGroup::create([
-    //         'name' => 'Invenstments',
-    //         'type' => 'asset',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     // Liability Types Groups
-    //     $bankODAc = AccountGroup::create([
-    //         'name' => 'Bank OD A/c',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $currentLiabilities = AccountGroup::create([
-    //         'name' => 'Current Liabilities',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $sundryCreditors = AccountGroup::create([
-    //         'name' => 'Sundry Creditors',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => $currentLiabilities->id,
-    //     ]);
-
-    //     $sundryCreditors->accounts()->createMany([
-    //         [
-    //             'name' => 'Bagdad Distributor Agrabad',
-    //             'opening_credit' => 0,
-    //         ],
-    //         [
-    //             'name' => 'Hasib Traders',
-    //             'opening_credit' => 0,
-    //         ],
-    //     ]);
-
-    //     $provisions = AccountGroup::create([
-    //         'name' => 'Provisions',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => $currentLiabilities->id,
-    //     ]);
-
-    //     $dutiesAndTaxes = AccountGroup::create([
-    //         'name' => 'Duties & Taxes',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => $currentLiabilities->id,
-    //     ]);
-
-    //     $loansLiability = AccountGroup::create([
-    //         'name' => 'Loans (Liability)',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $securedLoans = AccountGroup::create([
-    //         'name' => 'Secured Loans',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => $loansLiability->id,
-    //     ]);
-
-    //     $unsecuredLoans = AccountGroup::create([
-    //         'name' => 'Unsecured Loans',
-    //         'type' => 'liability',
-    //         'parent_account_group_id' => $loansLiability->id,
-    //     ]);
-
-    //     //Income Type Groups
-    //     $directIncomes = AccountGroup::create([
-    //         'name' => 'Direct Incomes',
-    //         'type' => 'income',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $indirectIncomes = AccountGroup::create([
-    //         'name' => 'Indirect Incomes',
-    //         'type' => 'income',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $salesAccounts = AccountGroup::create([
-    //         'name' => 'Sales Accounts',
-    //         'type' => 'income',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $salesAccounts->accounts()->createMany([
-    //         ['name' => 'Sales - Grocery Items'],
-    //         ['name' => 'Sales - Packaged Food & Beverages'],
-    //         ['name' => 'Sales - Health & Beauty Products'],
-    //         ['name' => 'Sales - Electronic Accessories'],
-    //         ['name' => 'Sales - Miscellaneous Items'],
-    //         ['name' => 'Sales Returns & Allowances (Contra)'],
-    //     ]);
-
-    //     // Expense Account Groups
-    //     $directExpenses = AccountGroup::create([
-    //         'name' => 'Direct Expenses',
-    //         'type' => 'expense',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $directExpenses->accounts()->createMany([
-    //         ['name' => 'Cost of Goods Sold (COGS)'],
-    //         ['name' => 'Freight Inward'],
-    //         ['name' => 'Direct Labor Costs'],
-    //         ['name' => 'Purchases - Grocery Items'],
-    //         ['name' => 'Purchases - Packaged Food & Beverages'],
-    //         ['name' => 'Purchases - Health & Beauty Products'],
-    //         ['name' => 'Purchases - Electronic Accessories'],
-    //         ['name' => 'Purchases - Miscellaneous Items'],
-    //     ]);
-
-    //     $indirectExpenses = AccountGroup::create([
-    //         'name' => 'Indirect Expenses',
-    //         'type' => 'expense',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-
-    //     $indirectExpenses->accounts()->createMany([
-    //         ['name' => 'Rent & Utilities'],
-    //         ['name' => 'Electricity Expense'],
-    //         ['name' => 'Water & Gas Expenses'],
-    //         ['name' => 'Internet & Telephone Expenses'],
-    //         ['name' => 'Salaries & Wages'],
-    //         ['name' => 'Marketing & Advertisement'],
-    //         ['name' => 'Office Supplies'],
-    //         ['name' => 'Depreciation - Fixtures & Equipment'],
-    //         ['name' => 'Bank Charges'],
-    //         ['name' => 'Miscellaneous Expenses'],
-    //     ]);
-
-    //     $purchaseAccounts = AccountGroup::create([
-    //         'name' => 'Purchase Accounts',
-    //         'type' => 'expense',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $purchaseAccounts->accounts()->createMany([
-    //         ['name' => 'Purchases - Grocery Items'],
-    //         ['name' => 'Purchases - Packaged Food & Beverages'],
-    //         ['name' => 'Purchases - Health & Beauty Products'],
-    //         ['name' => 'Purchases - Electronic Accessories'],
-    //         ['name' => 'Purchases - Miscellaneous Items'],
-    //         ['name' => 'Purchase Returns (Contra)'],
-    //     ]);
-
-    //     // Equity Group Type
-    //     $capitalAccount = AccountGroup::create([
-    //         'name' => 'Capital Account',
-    //         'type' => 'equity',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $capitalAccount->accounts()->createMany([
-    //         ['name' => 'Owner’s Capital'],
-    //         ['name' => 'Owner’s Drawings (Contra)'],
-    //     ]);
-
-    //     $reservesAndSurplus = AccountGroup::create([
-    //         'name' => 'Reserves & Surplus',
-    //         'type' => 'equity',
-    //         'parent_account_group_id' => NULL,
-    //     ]);
-
-    //     $reservesAndSurplus->accounts()->createMany([
-    //         ['name' => 'Retained Earnings'],
-    //         ['name' => 'General Reserve'],
-    //     ]);
-    // }
-
     public function accountGroupSeeder()
     {
         DB::table('account_groups')->truncate();
@@ -458,22 +119,18 @@ class DemoSeeder extends Seeder
         $bankAccounts->accounts()->createMany([
             [
                 'name' => 'ABC Bank - 7920011',
-                'opening_debit' => 50000.00,
                 'number' => '101-001',
             ],
             [
                 'name' => 'Jamuna Bank - 9032314',
-                'opening_debit' => 30000.00,
                 'number' => '101-002',
             ],
             [
                 'name' => 'Rupali Bank - 5001300',
-                'opening_debit' => 20000.00,
                 'number' => '101-003',
             ],
             [
                 'name' => 'Dhaka Bank - 5001300',
-                'opening_debit' => 40000.00,
                 'number' => '101-004',
             ],
         ]);
@@ -487,22 +144,18 @@ class DemoSeeder extends Seeder
         $cashInHand->accounts()->createMany([
             [
                 'name' => 'Main Cash',
-                'opening_debit' => 15000.00,
                 'number' => '102-001',
             ],
             [
                 'name' => 'Petty Cash',
-                'opening_debit' => 2000.00,
                 'number' => '102-002',
             ],
             [
                 'name' => 'GEC Branch Cash',
-                'opening_debit' => 5000.00,
                 'number' => '102-003',
             ],
             [
                 'name' => 'Sales Counter Cash',
-                'opening_debit' => 3000.00,
                 'number' => '102-004',
             ],
         ]);
@@ -516,37 +169,30 @@ class DemoSeeder extends Seeder
         $sundryDebtors->accounts()->createMany([
             [
                 'name' => 'Jacky Chaan',
-                'opening_debit' => 10000.00,
                 'number' => '103-001',
             ],
             [
                 'name' => 'Maurise Brown',
-                'opening_debit' => 8000.00,
                 'number' => '103-002',
             ],
             [
                 'name' => 'Oliva Bowman',
-                'opening_debit' => 12000.00,
                 'number' => '103-003',
             ],
             [
                 'name' => 'Jemmy Henry',
-                'opening_debit' => 9000.00,
                 'number' => '103-004',
             ],
             [
                 'name' => 'Devid Javi',
-                'opening_debit' => 7000.00,
                 'number' => '103-005',
             ],
             [
                 'name' => 'Mrs Melinda',
-                'opening_debit' => 11000.00,
                 'number' => '103-006',
             ],
             [
                 'name' => 'J&K Restaurant',
-                'opening_debit' => 13000.00,
                 'number' => '103-007',
             ],
         ]);
@@ -625,8 +271,6 @@ class DemoSeeder extends Seeder
             'parent_account_group_id' => $assets->id,
         ]);
 
-
-        // Expense Account Groups
         // Expense Account Groups
         $expenses = AccountGroup::create([
             'name' => 'Expenses',
@@ -710,12 +354,10 @@ class DemoSeeder extends Seeder
         $sundryCreditors->accounts()->createMany([
             [
                 'name' => 'Bagdad Distributor Agrabad',
-                'opening_credit' => 15000.00,
                 'number' => '201-001',
             ],
             [
                 'name' => 'Hasib Traders',
-                'opening_credit' => 10000.00,
                 'number' => '201-002',
             ],
         ]);

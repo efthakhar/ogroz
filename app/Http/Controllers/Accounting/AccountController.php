@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
@@ -80,12 +81,27 @@ class AccountController extends Controller
         ]);
     }
 
+    // public function dropdown(Request $request)
+    // {
+    //     return Account::when($request->name, function ($q) use ($request) {
+    //         $q->where('name', "LIKE", "%" . $request->name . "%");
+    //     })
+    //         ->pluck(DB::raw('select( concat("number", "-", "name") as name'), 'id');
+    // }
+
     public function dropdown(Request $request)
     {
-        return Account::when($request->name, function ($q) use ($request) {
-            $q->where('name', "LIKE", "%" . $request->name . "%");
-        })
-            ->pluck(DB::raw('select( concat("name", "-", "number") as name'), 'id');
+        $search = $request->q;
+        $page = $request->page ?? 1;
+        $perPage = 5; 
+
+        $items = Account::where('name', 'like', '%' . $search . '%')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => $items->items(),
+            'total' => $items->total(),
+        ]);
     }
 
     public function show($id)
@@ -98,8 +114,7 @@ class AccountController extends Controller
     public function create(Request $request)
     {
         $this->authorize('create account');
-        $types = accountGroupTypesForDropdown();
-        return view('accounting.accounts.create', compact('types'));
+        return view('accounting.accounts.create');
     }
 
 
@@ -108,15 +123,16 @@ class AccountController extends Controller
         $this->authorize('create account');
 
         $request->validate([
-            'name' => ['required', 'string', Rule::unique('account_groups')],
-            'type' => ['required', Rule::in(accountGroupTypes())],
+            'name' => ['required', 'string', Rule::unique('accounts')],
+            'number' => ['nullable', 'string', Rule::unique('accounts')],
+            'account_group_id' => ['required'],
         ]);
 
         try {
             DB::transaction(function () use ($request) {
-                AccountGroup::create($request->only('name', 'type', 'parent_account_group_id'));
+                Account::create($request->only('name', 'number', 'account_group_id'));
             });
-            return redirect()->route('accounts.index')->with('success', 'Account group created successfully');
+            return redirect()->route('accounts.index')->with('success', 'Account created successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -126,9 +142,8 @@ class AccountController extends Controller
     public function edit(Request $request, $id)
     {
         $this->authorize('edit account');
-        $types = accountGroupTypesForDropdown();
-        $accountGroup = AccountGroup::find($id);
-        return view('accounting.accounts.create', compact('types', 'accountGroup'));
+        $account = Account::find($id);
+        return view('accounting.accounts.create', compact('account'));
     }
 
     public function update(Request $request, $id)
@@ -136,19 +151,24 @@ class AccountController extends Controller
         $this->authorize('edit account');
 
         $request->validate([
-            'name' => ['required', 'string', Rule::unique('account_groups')->ignore($id)],
-            'type' => ['required', Rule::in(accountGroupTypes())],
-            'parent_account_group_id' => [Rule::notIn([$id])]
+            'name' => ['required', 'string', Rule::unique('accounts')->ignore($id)],
+            'number' => ['required', 'string', Rule::unique('accounts')->ignore($id)],
+            'account_group_id' => ['required'],
         ], [
             'parent_account_group_id.not_in' => "This account can not be keept under itself"
         ]);
 
         try {
             DB::transaction(function () use ($request, $id) {
-                AccountGroup::findOrFail($id)
-                    ->update($request->only('name', 'type', 'parent_account_group_id'));
+                /**
+                 * Before Update Ensure
+                 * - accounts with 0 journal entry can be updated without any limitation
+                 * - accounts which have already journal entry can not change account group of 
+                 *  different type for example: from asset to liability.
+                 */
+                Account::findOrFail($id)->update($request->only('name', 'number', 'account_group_id'));
             });
-            return redirect()->route('accounts.index')->with('success', 'Account group updated successfully');
+            return redirect()->route('accounts.index')->with('success', 'Account updated successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -163,16 +183,16 @@ class AccountController extends Controller
 
             /**
              * Before Delete Ensure
-             * - total journal entry
+             * - total journal entry is 0 for this account
              */
             DB::beginTransaction();
             foreach ($ids as $id) {
-                $accountGroup = AccountGroup::find($id);
-                $accountGroup->delete();
+                $account = Account::find($id);
+                $account->delete();
             }
 
             DB::commit();
-            $message = 'Account Group Deleted Successfully';
+            $message = 'Account Deleted Successfully';
 
             return $request->ajax()
                 ? response()->json(['message' => $message], 200)

@@ -13,13 +13,12 @@ return new class extends Migration
             $table->string('journalable_type')->nullable();
             $table->unsignedBigInteger('journalable_id')->nullable();
             $table->date('date');
-            $table->string('remarks')->nullable();
+            $table->string('description')->nullable();
             $table->unsignedBigInteger('base_currency_id')->nullable();
             $table->unsignedBigInteger('currency_id')->nullable();
             $table->unsignedBigInteger('exchange_rate')->nullable();
             $table->timestamps();
         });
-
     }
 
     public function down(): void

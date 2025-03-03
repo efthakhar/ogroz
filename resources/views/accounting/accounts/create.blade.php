@@ -1,39 +1,43 @@
 @extends('layouts.admin')
 @section('page-content')
     <div class="d-flex flex-wrap align-items-center py-2">
-        <h5 class="h4 me-auto">{{ empty($accountGroup) ? 'Create' : 'Edit' }} Account Group</h5>
+        <h5 class="h4 me-auto">{{ empty($account) ? 'Create' : 'Edit' }} Account</h5>
         <div class="d-flex flex-wrap align-items-center">
-            <a class="btn btn-primary m-1" href="{{ route('account-groups.index') }}">
+            <a class="btn btn-primary m-1" href="{{ route('accounts.index') }}">
                 <i class="ri-list-check"></i>
                 View All
             </a>
         </div>
     </div>
     <div class="p-3 rounded bg-body border mt-2 table-responsive">
-        {{ html()->form(!empty($accountGroup) ? 'PUT' : 'POST', !empty($accountGroup) ? route('account-groups.update', $accountGroup->id) : route('account-groups.store'))->open() }}
+        {{ html()->form(!empty($account) ? 'PUT' : 'POST', !empty($account) ? route('accounts.update', $account->id) : route('accounts.store'))->open() }}
         <div class="user-create-form row">
+
             {{ html()->div()->addClass('col-md-4 my-2')->children([
                     html()->label('Name', 'name')->addClass('form-label')->children([html()->span()->text('*')->class('text-danger')]),
-                    html()->text('name')->addClass('form-control' . ($errors->has('name') ? ' is-invalid' : ''))->attribute('placeholder', 'Name')->attribute('required', true)->attribute('autocomplete', 'off')->value(old('name', $accountGroup->name ?? '')),
+                    html()->text('name')->addClass('form-control' . ($errors->has('name') ? ' is-invalid' : ''))->attribute('placeholder', 'Name')->attribute('required', true)->attribute('autocomplete', 'off')->value(old('name', $account->name ?? '')),
                     $errors->has('name') ? html()->span($errors->first('name'))->addClass('text-danger') : '',
                 ]) }}
 
-
             {{ html()->div()->addClass('col-md-4 my-2')->children([
-                    html()->label('Type')->addClass('form-label'),
+                    html()->label('Number', 'number')->addClass('form-label')->children([html()->span()->text('*')->class('text-danger')]),
             
-                    html()->select('type', $types)->addClass('form-select')->value(old('type') ?? ($accountGroup->type ?? '')),
+                    html()->text('number')->addClass('form-control' . ($errors->has('number') ? ' is-invalid' : ''))->attribute('placeholder', 'Number')->attribute('required', true)->attribute('autocomplete', 'off')->value(old('number', $account->number ?? '')),
             
-                    $errors->has('type') ? html()->span($errors->first('type'))->addClass('text-danger d-block mt-2') : '',
+                    $errors->has('number') ? html()->span($errors->first('number'))->addClass('text-danger') : '',
                 ]) }}
+
 
             {{ html()->div()->addClass('col-md-4 my-2')->children([
                     html()->label('Under')->addClass('form-label'),
             
-                    html()->select('parent_account_group_id', [])->addClass('form-select')->value(old('parent_account_group_id') ?? ($accountGroup->parent_account_group_id ?? '')),
+                    html()->select('account_group_id', [])
+                    ->attribute('id', 'account_group_id')
+                    ->addClass('form-select')
+                    ->value(old('account_group_id') ?? ($account->account_group_id ?? '')),
             
-                    $errors->has('parent_account_group_id')
-                        ? html()->span($errors->first('parent_account_group_id'))->addClass('text-danger d-block mt-2')
+                    $errors->has('account_group_id')
+                        ? html()->span($errors->first('account_group_id'))->addClass('text-danger d-block mt-2')
                         : '',
                 ]) }}
 
@@ -51,30 +55,16 @@
     <script>
         $(document).ready(function() {
 
-            let grouptype = $('#type').val();
-            let accountGroup = "{{ !empty($accountGroup) ? $accountGroup->id : '' }}";
-            let selected =
-            "{{ old('parent_account_group_id') ?? ($accountGroup->parent_account_group_id ?? '') }}";
+            let selected = "{{ old('account_group_id') ?? ($account->account_group_id ?? '') }}";
+            loadGroups(selected);
 
-            if (grouptype != '') {
-                loadGroups(grouptype, selected, accountGroup);
-            }
+            function loadGroups(selected = '') {
 
-            $('#type').on('change', function() {
-                loadGroups($(this).val(), '', accountGroup)
-            })
-
-            function loadGroups(grouptype = '', selected = '', omit) {
-                // console.log(grouptype, selected)
                 return new Promise((resolve, reject) => {
                     $.ajax({
                         type: "GET",
                         url: "{{ route('account-groups.dropdown') }}",
                         dataType: "json",
-                        data: {
-                            'type': grouptype,
-                            'omit': omit
-                        },
                         success: function(response) {
                             let nestedAccountGroups = buildNestedOptionsForSelect2(
                                 response,
@@ -94,9 +84,9 @@
                             }, ...flattenData(children, prefix + '- ')]);
 
                             const formattedData = flattenData(nestedAccountGroups);
-
-                            $('#parent_account_group_id').empty()
-                            $('#parent_account_group_id').select2({
+                            
+                            $('#account_group_id').empty()
+                            $('#account_group_id').select2({
                                 data: formattedData,
                                 placeholder: "=N/A=",
                                 allowClear: true,
@@ -104,9 +94,9 @@
 
                             if (selected) {
 
-                                if ($('#parent_account_group_id').find(
+                                if ($('#account_group_id').find(
                                         `option[value="${selected}"]`).length) {
-                                    $('#parent_account_group_id').val(selected).trigger(
+                                    $('#account_group_id').val(selected).trigger(
                                         'change');
                                 } else {
                                     console.log(`Option with value ${selected} not found.`);

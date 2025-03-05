@@ -5,7 +5,7 @@ namespace App\Models\Accounting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AccountJournalEntry extends Model
+class JournalEntryLine extends Model
 {
     protected $fillable = [
         'journal_entry_id',

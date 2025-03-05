@@ -17,8 +17,8 @@ class JournalEntry extends Model
         'exchange_rate',
     ];
 
-    public function accountJournalEntries(): HasMany
+    public function journalEntryLines()
     {
-        return $this->hasMany(AccountJournalEntry::class);
+        return $this->hasMany(JournalEntryLine::class);
     }
 }

@@ -132,15 +132,15 @@
                 let newLine =
                     `<tr>
                         <td>
-                            <select name="accountJournalEntries[':sl']['account_id']" class="account_id form-select line_field">
+                            <select name="journalEntryLines[':sl'][account_id]" class="account_id form-select line_field">
                                 <option value="">Select an Account</option>
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="accountJournalEntries[':sl']['debit']" class="debit line_field">
+                            <input type="text" name="journalEntryLines[':sl'][debit]" class="debit line_field">
                         </td>
                         <td>
-                            <input type="text" name="accountJournalEntries[':sl']['credit']" class="credit line_field">
+                            <input type="text" name="journalEntryLines[':sl'][credit]" class="credit line_field">
                         </td>
                         <td class="text-center p-1">
                             <span class="btn-sm btn  text-danger border m-1 px-2 py-1 remove-line">
@@ -207,7 +207,8 @@
 
                     $this.find('.line_field').each(function(index, element) {
                         let $element = $(element);
-                        $element.attr('name', ($element.attr('name').replace(':sl', sl)));
+                        $element.attr('name', ($element.attr('name').replace("[':sl']",
+                        `[${sl}]`)));
                     });
                 });
             }

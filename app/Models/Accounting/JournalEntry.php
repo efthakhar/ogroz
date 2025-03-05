@@ -15,6 +15,7 @@ class JournalEntry extends Model
         'base_currency_id',
         'currency_id',
         'exchange_rate',
+        'description'
     ];
 
     public function journalEntryLines()

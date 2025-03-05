@@ -1,14 +1,5 @@
 @extends('layouts.admin')
 @section('page-content')
-    <div class="d-flex flex-wrap align-items-center py-2">
-        <h5 class="h4 me-auto">{{ empty($journalEntry) ? 'Create' : 'Edit' }} Journal Entry</h5>
-        <div class="d-flex flex-wrap align-items-center">
-            <a class="btn btn-primary m-1" href="{{ route('journal-entries.index') }}">
-                <i class="ri-list-check"></i>
-                View All
-            </a>
-        </div>
-    </div>
     <style>
         .journal-entry-lines-table td input,
         .journal-entry-lines-table td select,
@@ -62,7 +53,17 @@
             text-align: right;
         }
     </style>
-    <div class="p-3 rounded bg-body border mt-2">
+    <div class="d-flex flex-wrap align-items-center py-2">
+        <h5 class="h4 me-auto">{{ empty($journalEntry) ? 'Create' : 'Edit' }} Journal Entry</h5>
+        <div class="d-flex flex-wrap align-items-center">
+            <a class="btn btn-primary m-1" href="{{ route('journal-entries.index') }}">
+                <i class="ri-list-check"></i>
+                View All
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-2">
         {{ html()->form(!empty($journalEntry) ? 'PUT' : 'POST', !empty($journalEntry) ? route('journal-entries.update', $journalEntry->id) : route('journal-entries.store'))->open() }}
         <div class="row">
 
@@ -89,6 +90,74 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if (!empty(old('journalEntryLines')))
+                            @foreach (old('journalEntryLines') as $index => $journalEntryLine)
+                                <tr>
+                                    <td>
+                                        <select name="journalEntryLines[':sl'][account_id]"
+                                            class="account_id form-select line_field">
+                                            <option value="{{ $journalEntryLine['account_id'] }}">
+                                                {{ old('selected_accounts')[$journalEntryLine['account_id']] ?? 'Select an Account' }}
+
+                                            </option>
+                                        </select>
+                                        @error("journalEntryLines.{$index}")
+                                            <span class="text-danger m-1 text-sm">{{ $message }}</span>
+                                        @enderror
+                                        @error("journalEntryLines.{$index}.account_id")
+                                            <span class="text-danger m-1 text-sm">{{ $message }}</span>
+                                        @enderror
+
+                                    </td>
+                                    <td>
+                                        <input type="text" name="journalEntryLines[':sl'][debit]"
+                                            class="debit line_field" value="{{ $journalEntryLine['debit'] ?? 0 }}">
+                                        @error("journalEntryLines.{$index}.debit")
+                                            <span class="text-danger m-1 text-sm text-right">{{ $message }}</span>
+                                        @enderror
+                                    </td>
+                                    <td>
+                                        <input type="text" name="journalEntryLines[':sl'][credit]"
+                                            class="credit line_field" value="{{ $journalEntryLine['credit'] ?? 0 }}">
+                                        @error("journalEntryLines.{$index}.credit")
+                                            <span class="text-danger m-1 text-right">{{ $message }}</span>
+                                        @enderror
+                                    </td>
+                                    <td class="text-center p-1">
+                                        <span class="btn-sm btn  text-danger border m-1 px-2 py-1 remove-line">
+                                            <i class="ri-subtract-line ri-xl"></i>
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        @elseif(!empty($journalEntry->journalEntryLines))
+                            @foreach ($journalEntry->journalEntryLines as $journalEntryLine)
+                                <tr>
+                                    <td>
+                                        <select name="journalEntryLines[':sl'][account_id]"
+                                            class="account_id form-select line_field">
+                                            <option value="{{ $journalEntryLine['account_id'] }}">
+                                                {{ $selected_accounts[$journalEntryLine['account_id']] ?? 'Select an Account' }}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="journalEntryLines[':sl'][debit]"
+                                            class="debit line_field" value="{{ $journalEntryLine['debit'] ?? 0 }}">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="journalEntryLines[':sl'][credit]"
+                                            class="credit line_field" value="{{ $journalEntryLine['credit'] ?? 0 }}">
+                                    </td>
+                                    <td class="text-center p-1">
+                                        <span class="btn-sm btn  text-danger border m-1 px-2 py-1 remove-line">
+                                            <i class="ri-subtract-line ri-xl"></i>
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                     <tfoot class="border">
                         <tr>
@@ -125,6 +194,15 @@
 @section('page-scripts')
     <script>
         $(document).ready(function() {
+
+            // on page load initialize select2 on every account field and reindex the rows
+            $('.journal-entry-lines-table tbody tr .account_id').each(function(index, accountField) {
+                let $this = $(this);
+                initializeSelect2($this);
+            });
+            reindexJournalLines();
+
+
 
             $('.journal-entry-lines-table .add_line').on('click', function(e) {
 
@@ -208,7 +286,7 @@
                     $this.find('.line_field').each(function(index, element) {
                         let $element = $(element);
                         $element.attr('name', ($element.attr('name').replace("[':sl']",
-                        `[${sl}]`)));
+                            `[${sl}]`)));
                     });
                 });
             }

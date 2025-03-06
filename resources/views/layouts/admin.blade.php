@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('css/core/sweet-alert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/core/select2.css') }}">
     <link rel="stylesheet" href="{{ asset('css/core/theme.css') }}">
+
+    @yield('page-head-scripts')
 </head>
 
 <body data-bs-theme="light">

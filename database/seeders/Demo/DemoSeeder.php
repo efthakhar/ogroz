@@ -2,7 +2,9 @@
 
 namespace Database\Seeders\Demo;
 
+use App\Models\Accounting\Account;
 use App\Models\Accounting\AccountGroup;
+use App\Models\Accounting\JournalEntry;
 use App\Models\Setting\User;
 use Exception;
 use Illuminate\Database\Seeder;
@@ -36,6 +38,9 @@ class DemoSeeder extends Seeder
 
             //seed account groups
             $this->accountGroupSeeder();
+
+            //seed journal entries
+            $this->journalEntrySeeder();
 
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
         } catch (Exception $e) {
@@ -440,8 +445,8 @@ class DemoSeeder extends Seeder
         ]);
 
         $capitalAccount->accounts()->createMany([
-            ['name' => 'Owner’s Capital', 'number' => '301-001'],
-            ['name' => 'Owner’s Drawings (Contra)', 'number' => '301-002'],
+            ['name' => "Owner's Capital", 'number' => '301-001'],
+            ['name' => "Owner's Drawings (Contra)", 'number' => '301-002'],
         ]);
 
         $reservesAndSurplus = AccountGroup::create([
@@ -454,6 +459,51 @@ class DemoSeeder extends Seeder
             ['name' => 'Retained Earnings', 'number' => '302-001'],
             ['name' => 'General Reserve', 'number' => '302-002'],
         ]);
+    }
+
+    public function journalEntrySeeder()
+    {
+        DB::table('journal_entries')->truncate();
+        DB::table('journal_entry_lines')->truncate();
+
+        /// dd(Account::pluck('name'));
+        DB::transaction(function () {
+
+            $mainCashAccount = Account::where('name', 'Main Cash')->first();
+            $pettyCashAccount = Account::where('name', 'Petty Cash')->first();
+            $ownerCapitalAccount = Account::where('name', "Owner's Capital")->first();
+
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-04-01',
+                'description' => 'Testing',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $mainCashAccount->id,
+                    'debit' => 40000,
+                ],
+                [
+                    'account_id' => $ownerCapitalAccount->id,
+                    'credit' => 40000,
+                ],
+            ]);
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-06-01',
+                'description' => 'Testing',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $pettyCashAccount->id,
+                    'debit' => 10000,
+                ],
+                [
+                    'account_id' => $ownerCapitalAccount->id,
+                    'credit' => 10000,
+                ],
+            ]);
+        });
     }
 }
 

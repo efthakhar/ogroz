@@ -55,5 +55,6 @@ Route::group(['prefix' => 'app', 'middleware' => ['auth']], function () {
     Route::post('accounts/datatable', [AccountController::class, 'datatable'])->name('accounts.datatable');
 
     //== Journal Entry Routes
+    Route::post('journal-entries/datatable', [JournalEntryController::class, 'datatable'])->name('journal-entries.datatable');
     Route::resource('journal-entries', JournalEntryController::class);
 });

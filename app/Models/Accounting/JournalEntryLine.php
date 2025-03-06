@@ -20,4 +20,10 @@ class JournalEntryLine extends Model
     {
         return $this->belongsTo(JournalEntry::class);
     }
+
+    public function account(): BelongsTo
+    {
+        return $this->belongsTo(Account::class);
+    }
+
 }

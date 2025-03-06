@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounting\Account;
 use App\Models\Accounting\JournalEntry;
 use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -13,25 +14,43 @@ use Illuminate\Validation\Rule;
 
 class JournalEntryController extends Controller
 {
-    public function index(Request $request) {}
+    use AuthorizesRequests;
 
-    public function datatable(Request $request) {}
+    public function index()
+    {
+        $this->authorize('create journal entry');
+        return view('accounting.journal-entries.index'); // Load initial view
+    }
 
-    public function show($id) {}
+    public function datatable(Request $request)
+    {
+        $this->authorize('create journal entry');
+        $journalEntries = JournalEntry::paginate(10);
+        return view('accounting.journal-entries.data-table', compact('journalEntries'));
+    }
+
+
+    public function show($id)
+    {
+        $this->authorize('view journal entry');
+    }
 
     public function create(Request $request)
     {
+        $this->authorize('create journal entry');
         return view('accounting.journal-entries.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create journal entry');
+
         $request->merge([
             'selected_accounts' => Account::whereIn('id', [...array_column($request->input('journalEntryLines'), 'account_id')])
                 ->pluck('name', 'id')
         ]);
 
-        $validator = Validator::make($request->all(), ['date' => 'required', 'description' => 'nullable|max:3']);
+        $validator = Validator::make($request->all(), ['date' => 'required', 'description' => 'nullable']);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -53,7 +72,6 @@ class JournalEntryController extends Controller
             $journalEntry->journalEntryLines()->createMany($journalEntryLines);
             DB::commit();
             return redirect()->route('journal-entries.index')->with('success', 'Journal Entry Created Successfully');
-     
         } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
@@ -62,6 +80,8 @@ class JournalEntryController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('edit journal entry');
+
         $journalEntry = JournalEntry::with('journalEntryLines')->find($id);
         $selected_accounts = Account::whereIn('id', [...$journalEntry->journalEntryLines->pluck('account_id')])
             ->pluck('name', 'id');
@@ -70,6 +90,8 @@ class JournalEntryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->authorize('edit journal entry');
+
         $request->merge([
             'selected_accounts' => Account::whereIn('id', [...array_column($request->input('journalEntryLines'), 'account_id')])->pluck('name', 'id')
         ]);
@@ -128,5 +150,8 @@ class JournalEntryController extends Controller
         }
     }
 
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $this->authorize('delete journal entry');
+    }
 }

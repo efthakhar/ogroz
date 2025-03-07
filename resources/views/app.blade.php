@@ -17,27 +17,58 @@
         </div>
         <div class="row flex-wrap">
             <div class="col-md-4 my-2">
-                <div class="card border-0 p-2 bg-body text-left">
+                <div class="card border-0 p-2 bg-body text-left h-100">
                     <div class="card-body">
                         <p class="h6 text-body">
-                            Accounting
+                            Setting
                         </p>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span> Account Groups</span>
+                        <a href="{{ route('profile') }}" class="link-secondary me-2 mb-1">
+                            <span>Profile</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Accounts</span>
+                        <a href="{{ route('users.index') }}" class="link-secondary mb-1">
+                            <span>Users</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Journal Entries</span>
+                        <br>
+                        <a href="{{ route('system.configurations') }}" class="link-secondary me-2 mb-1">
+                            <span>System</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                        <a href="{{ route('roles.index') }}" class="link-secondary mb-1">
+                            <span>Roles</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                       
+                        <a href="{{ route('logout') }}" class="link-secondary d-block mb-1">
+                            <span>Logout</span>
                             <i class="ri-arrow-right-up-fill"></i>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 my-2">
+                <div class="card border-0 p-2 bg-body text-left">
+                    <div class="card-body">
+                        <p class="h6 text-body">
+                            Accounting
+                        </p>
+                        <a href="{{ route('account-groups.index') }}" class="link-secondary d-block mb-1">
+                            <span> Account Groups</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                        <a href="{{ route('accounts.index') }}" class="link-secondary d-block mb-1">
+                            <span>Accounts</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                        <a href="{{ route('journal-entries.index') }}" class="link-secondary d-block mb-1">
+                            <span>Journal Entries</span>
+                            <i class="ri-arrow-right-up-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="col-md-4 my-2">
                 <div class="card border-0 p-2 bg-body text-left">
                     <div class="card-body">
                         <p class="h6 text-body">
@@ -63,36 +94,7 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 my-2">
-                <div class="card border-0 p-2 bg-body text-left h-100">
-                    <div class="card-body">
-                        <p class="h6 text-body">
-                            Setting
-                        </p>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Profile</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Users</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>System</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Roles</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                        <a href="#" class="link-secondary d-block mb-1">
-                            <span>Logout</span>
-                            <i class="ri-arrow-right-up-fill"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

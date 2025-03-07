@@ -130,7 +130,7 @@
                         </span>
                     </a>
                 </div>
-                <div class="sidebar-nav-item ">
+                {{-- <div class="sidebar-nav-item ">
                     <a class="sidebar-nav-link text-body">
                         <span class="sidebar-nav-link-icon">
                             <i class="ri-pie-chart-2-line ri-lg"></i>
@@ -185,7 +185,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

@@ -239,11 +239,11 @@
             });
 
             $('.journal-entry-lines-table').on('input', '.debit', function() {
-                $(this).closest('tr').find('.credit').val(0)
+                $(this).closest('tr').find('.credit').val('')
             });
 
             $('.journal-entry-lines-table').on('input', '.credit', function() {
-                $(this).closest('tr').find('.debit').val(0)
+                $(this).closest('tr').find('.debit').val('')
             });
 
 

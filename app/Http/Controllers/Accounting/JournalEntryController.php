@@ -18,15 +18,74 @@ class JournalEntryController extends Controller
 
     public function index()
     {
-        $this->authorize('create journal entry');
-        return view('accounting.journal-entries.index'); // Load initial view
+        $this->authorize('view journal entry');
+        return view('accounting.journal-entries.index');
     }
 
     public function datatable(Request $request)
     {
-        $this->authorize('create journal entry');
-        $journalEntries = JournalEntry::paginate(10);
-        return view('accounting.journal-entries.data-table', compact('journalEntries'));
+        $this->authorize('view journal entry');
+
+        $search = $request->search['value'];
+        $draw = $request->input('draw');
+        $start = $request->input('start');
+        $length = $request->input('length');
+        $page = (int)$start > 0 ? ($start / $length) + 1 : 1;
+        $perPage = (int)$length > 0 ? $length : 10;
+
+        $query =  JournalEntry::with(['journalEntryLines.account']) 
+            ->with(['journalEntryLines' => function($query) {
+                $query->orderByRaw('debit IS NULL, debit ASC')
+              ->orderByRaw('credit IS NULL, credit ASC');
+            }]);
+
+        $query
+            ->when(!empty($request->date), function ($q) use ($request) {
+                $q->where('date', $request->date);
+            })
+            ->when(!empty($request->account_id), function ($q) use ($request) {
+                $q->whereHas('journalEntryLines.account', function($q) use($request){
+                    return $q->whereIn('account_id', ...$request->account_id);
+                });   
+            });
+
+        $order = $request->get('order');
+
+        if (!empty($order)) {
+            $columnIndex = $order[0]['column'];
+            $columnName = $request->get('columns')[$columnIndex]['data'];
+            $columnSortOrder = $order[0]['dir'];
+            $query->orderBy($columnName, $columnSortOrder);
+        } else {
+            $query->orderBy('date', 'desc');
+        }
+
+        $items = $query->paginate($perPage, ["*"], 'page', $page);
+
+        return response()->json([
+            'draw' => $draw,
+            'recordsTotal' => $items->total(),
+            'recordsFiltered' => $items->total(),
+            'data' => $items->getCollection()->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'date' => date('d M Y', strtotime($item->date)),
+                    'description' => $item->description,
+                    'particulars' => $item->journalEntryLines->map(function($particular){
+                        return $particular->account->name;
+                    }),
+                    'debit' => $item->journalEntryLines->map(function($particular){
+                        return $particular->debit ? number_format($particular->debit) : null;
+                    }),
+                    'credit' => $item->journalEntryLines->map(function($particular){
+                        return $particular->credit ? number_format($particular->credit) : null;
+                    }),
+                    'account_id' => $item->journalEntryLines->map(function($particular){
+                        return $particular->account_id;
+                    }),
+                ];
+            }),
+        ]);
     }
 
 
@@ -65,8 +124,8 @@ class JournalEntryController extends Controller
                 $journalEntryLines[] =
                     [
                         'account_id' => $line['account_id'],
-                        'debit' => $line['debit'] ?? 0,
-                        'credit' => $line['credit'] ?? 0,
+                        'debit' => $line['debit'] ,
+                        'credit' => $line['credit'] ,
                     ];
             }
             $journalEntry->journalEntryLines()->createMany($journalEntryLines);
@@ -136,8 +195,8 @@ class JournalEntryController extends Controller
                 $journalEntryLines[] =
                     [
                         'account_id' => $line['account_id'],
-                        'debit' => $line['debit'] ?? 0,
-                        'credit' => $line['credit'] ?? 0,
+                        'debit' => $line['debit'] ,
+                        'credit' => $line['credit'] ,
                     ];
             }
             $journalEntry->journalEntryLines()->delete();
@@ -150,8 +209,33 @@ class JournalEntryController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $this->authorize('delete journal entry');
+        $ids = explode(',', $id);
+
+        try {
+
+            DB::beginTransaction();
+            foreach ($ids as $id) {
+                $journalEntry = JournalEntry::find($id);
+                $journalEntry->journalEntryLines()->delete();
+                $journalEntry->delete();
+            }
+
+            DB::commit();
+            $message = 'Account Deleted Successfully';
+
+            return $request->ajax()
+                ? response()->json(['message' => $message], 200)
+                : redirect()->route('accounts.index')->with('success', $message);
+        } catch (Exception $e) {
+
+            DB::rollBack();
+            $errorMessage = $e->getMessage();
+            return $request->ajax()
+                ? response()->json(['message' => $errorMessage], 500)
+                : redirect()->route('accounts.index')->withInput()->with('error', $errorMessage);
+        }
     }
 }

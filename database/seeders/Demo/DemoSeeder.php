@@ -472,6 +472,10 @@ class DemoSeeder extends Seeder
             $mainCashAccount = Account::where('name', 'Main Cash')->first();
             $pettyCashAccount = Account::where('name', 'Petty Cash')->first();
             $ownerCapitalAccount = Account::where('name', "Owner's Capital")->first();
+            $purchasesGroceryItemsAccount = Account::where('name', "Purchases - Grocery Items")->first();
+            $purchasesHealthAndBeautyProductsAccount = Account::where('name', "Purchases - Health & Beauty Products")->first();
+            $PurchasesPackagedFoodAndBeveragesAccount = Account::where('name', "Purchases - Packaged Food & Beverages")->first();
+         
 
             $journalEntry = JournalEntry::create([
                 'date' => '2024-04-01',
@@ -488,6 +492,7 @@ class DemoSeeder extends Seeder
                     'credit' => 40000,
                 ],
             ]);
+
             $journalEntry = JournalEntry::create([
                 'date' => '2024-06-01',
                 'description' => 'Testing',
@@ -503,6 +508,85 @@ class DemoSeeder extends Seeder
                     'credit' => 10000,
                 ],
             ]);
+
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-08-01',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $purchasesGroceryItemsAccount->id,
+                    'debit' => 100,
+                ],
+                [
+                    'account_id' => $pettyCashAccount->id,
+                    'credit' => 100,
+                ],
+            ]);
+
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-08-16',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $purchasesHealthAndBeautyProductsAccount->id,
+                    'debit' => 20,
+                ],
+                [
+                    'account_id' => $pettyCashAccount->id,
+                    'credit' => 20,
+                ],
+            ]);
+
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-08-26',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $purchasesHealthAndBeautyProductsAccount->id,
+                    'debit' => 220,
+                ],
+                [
+                    'account_id' => $mainCashAccount->id,
+                    'credit' => 220,
+                ],
+            ]);
+
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-08-20',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $PurchasesPackagedFoodAndBeveragesAccount->id,
+                    'debit' => 50,
+                ],
+                [
+                    'account_id' => $mainCashAccount->id,
+                    'credit' => 50,
+                ],
+            ]);
+
+            $journalEntry = JournalEntry::create([
+                'date' => '2024-08-24',
+            ]);
+
+            $journalEntry->journalEntryLines()->createMany([
+                [
+                    'account_id' => $PurchasesPackagedFoodAndBeveragesAccount->id,
+                    'debit' => 50,
+                ],
+                [
+                    'account_id' => $mainCashAccount->id,
+                    'credit' => 50,
+                ],
+            ]);
+
+
+
+
         });
     }
 }

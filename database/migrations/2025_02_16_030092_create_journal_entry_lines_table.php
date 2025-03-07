@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('journal_entry_id');
             $table->unsignedBigInteger('account_id');
-            $table->double('debit')->default(0);
-            $table->double('credit')->default(0);
+            $table->double('debit')->nullable();
+            $table->double('credit')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });

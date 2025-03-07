@@ -86,9 +86,9 @@
                 </span>
             </a>
             <div
-                class="sidebar-nav-item-subitems {{ request()->routeIs('account-groups.*', 'accounts.*', 'journal-entries.*') ? 'collapsed' : '' }}">
+                class="sidebar-nav-item-subitems {{ request()->routeIs('account-groups.*', 'accounts.*', 'journal-entries.*', 'accounting.dashboard') ? 'collapsed' : '' }}">
                 <div class="sidebar-nav-item ">
-                    <a class="sidebar-nav-link text-body">
+                    <a class="sidebar-nav-link text-body {{ request()->routeIs('accounting.dashboard') ? 'active' : '' }}"  href="{{ route('accounting.dashboard') }}">
                         <span class="sidebar-nav-link-icon">
                             <i class="ri-dashboard-3-line ri-lg"></i>
                         </span>

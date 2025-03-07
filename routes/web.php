@@ -8,6 +8,7 @@ use App\Http\Controllers\Setting\SystemConfigurationController;
 use App\Http\Controllers\Setting\UserController;
 use App\Http\Controllers\Accounting\AccountController;
 use App\Http\Controllers\Accounting\AccountGroupController;
+use App\Http\Controllers\Accounting\AccountingDashboardController;
 use App\Http\Controllers\Accounting\JournalEntryController;
 
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,8 @@ Route::group(['prefix' => 'app', 'middleware' => ['auth']], function () {
     Route::get('system-configurations', [SystemConfigurationController::class, 'systemConfigurations'])->name('system.configurations');
     Route::post('system-configurations', [SystemConfigurationController::class, 'systemConfigurationsSubmit'])->name('system.configurations.submit');
 
+    //== Accounting Dashboard
+    Route::get('accounting-dashboard', [AccountingDashboardController::class, 'index'])->name('accounting.dashboard');
 
     //== Account Group Routes
     Route::get('account-groups/dropdown', [AccountGroupController::class, 'dropdown'])->name('account-groups.dropdown');

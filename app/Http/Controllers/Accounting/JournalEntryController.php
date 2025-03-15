@@ -35,8 +35,8 @@ class JournalEntryController extends Controller
 
         $query =  JournalEntry::with(['journalEntryLines.account']) 
             ->with(['journalEntryLines' => function($query) {
-                $query->orderByRaw('debit IS NULL, debit ASC')
-              ->orderByRaw('credit IS NULL, credit ASC');
+                $query->orderByRaw('debit DESC')
+              ->orderByRaw('credit DESC');
             }]);
 
         $query

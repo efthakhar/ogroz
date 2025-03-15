@@ -58,15 +58,9 @@
                 <label for="" class="form-label">Date</label>
                 <input type="date" class="form-control" name='filter_date' class="filter_date" id='filter_date'>
             </div>
-            <div class="col-md-3 my-1">
-                <label for="" class="form-label">Under</label>
-                <select class="form-select" id="filter_account_group_id">
-                    <option value="">=N/A=</option>
-                </select>
-            </div>
         </div>
         <div class="p-3 rounded bg-body border mt-2 table-responsive">
-            <table class="table table-hover rounded-2 overflow-hidden display" id='accounts-table'>
+            <table class="table table-hover rounded-2 overflow-hidden display" id='journal-entries-table'>
             </table>
         </div>
     </div>
@@ -204,9 +198,9 @@
             });
 
 
-            $('#accounts-table').empty().append(thead);
+            $('#journal-entries-table').empty().append(thead);
 
-            const table = $('#accounts-table').DataTable({
+            const table = $('#journal-entries-table').DataTable({
                 order: [],
                 lengthMenu: [
                     [10, 25, 50, 100, 500, 1000],

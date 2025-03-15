@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Database\Seeders\Demo\DemoSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,12 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+
+            // make the whole demo during new login in demosite. 
+            // comment this portion on production
+            $seeder = new DemoSeeder();
+            $seeder->run();
+
             $request->session()->regenerate();
             return redirect()->route('app')->with('success', 'Login Successfull. Welcome to Ogroz System');
         } else {
